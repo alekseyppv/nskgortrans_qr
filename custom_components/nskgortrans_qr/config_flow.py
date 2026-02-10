@@ -1,25 +1,42 @@
-import voluptuous as vol
-from homeassistant import config_entries
-from .const import DOMAIN
+    @staticmethod
+    def async_get_options_flow(config_entry):
+        return NSKgortransQrOptionsFlow(config_entry)
 
 
-class NSKgortransQrConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    VERSION = 1
+class NSKgortransQrOptionsFlow(config_entries.OptionsFlow):
+    def __init__(self, entry):
+        self.entry = entry
 
-    async def async_step_user(self, user_input=None):
+    async def async_step_init(self, user_input=None):
         if user_input is not None:
+            routes = self.entry.options.get("routes", [])
+            routes.append(
+                {
+                    "number": user_input["number"],
+                    "type": user_input["type"],
+                }
+            )
+
             return self.async_create_entry(
-                title="NSKGorTrans QR",
-                data=user_input,
+                title="",
+                data={"routes": routes},
             )
 
         return self.async_show_form(
-            step_id="user",
+            step_id="init",
             data_schema=vol.Schema(
                 {
-                    vol.Required("url"): str,
-                    vol.Required("scan_interval", default=60): vol.All(
-                        vol.Coerce(int), vol.Range(min=30, max=600)
+                    vol.Required("number"): str,
+                    vol.Required(
+                        "type",
+                        default="автобус",
+                    ): vol.In(
+                        [
+                            "автобус",
+                            "троллейбус",
+                            "трамвай",
+                            "маршрутное такси",
+                        ]
                     ),
                 }
             ),
