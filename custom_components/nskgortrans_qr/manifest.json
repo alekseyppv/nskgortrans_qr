@@ -1,0 +1,10 @@
+{
+  "domain": "nskgortrans_qr",
+  "name": "NSKGorTrans QR Forecast",
+  "version": "1.0.0",
+  "documentation": "https://github.com/alekseyppv/nskgortrans_qr",
+  "requirements": ["beautifulsoup4"],
+  "codeowners": ["@alekseyppv"],
+  "config_flow": true,
+  "iot_class": "cloud_polling"
+}

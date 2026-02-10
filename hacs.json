@@ -1,0 +1,7 @@
+{
+  "name": "NSKGorTrans QR Forecast",
+  "content_in_root": false,
+  "domain": "nskgortrans_qr",
+  "country": ["RU"],
+  "iot_class": "cloud_polling"
+}

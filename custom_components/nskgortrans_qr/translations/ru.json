@@ -1,0 +1,15 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "NSKGorTrans QR",
+        "description": "Добавьте остановку и маршруты",
+        "data": {
+          "url": "Ссылка QR",
+          "scan_interval": "Интервал обновления (сек)",
+          "routes": "Маршруты"
+        }
+      }
+    }
+  }
+}
