@@ -1,13 +1,20 @@
+import logging
 import aiohttp
 from bs4 import BeautifulSoup
 from datetime import timedelta
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+)
+
+_LOGGER = logging.getLogger(__name__)
+
 
 class NSKCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, url, scan_interval):
         super().__init__(
             hass,
-            logger=None,
+            logger=_LOGGER,
             name="nskgortrans_qr",
             update_interval=timedelta(seconds=scan_interval),
         )
