@@ -1,9 +1,11 @@
 from homeassistant.components.sensor import SensorEntity
+
 from .const import DOMAIN
+
 
 async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = hass.data[DOMAIN][entry.entry_id]
-    routes = entry.options.get("routes", [])
+    routes = entry.options.get("routes", entry.data.get("routes", []))
 
     sensors = []
     for route in routes:
@@ -40,4 +42,3 @@ class NSKRouteSensor(SensorEntity):
                     if token.isdigit():
                         return int(token)
         return "unknown"
-
