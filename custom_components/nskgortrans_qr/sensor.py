@@ -1,11 +1,6 @@
-import re
-
 from homeassistant.components.sensor import SensorEntity
 
 from .const import DOMAIN
-
-
-MINUTES_RE = re.compile(r"(\d+)\s*мин")
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -41,25 +36,9 @@ class NSKRouteSensor(SensorEntity):
 
     @property
     def state(self):
-        if not self.coordinator.data:
-            return "unknown"
-
-        route_pattern = re.compile(rf"\b{re.escape(self.number)}\b")
-
         for line in self.coordinator.data:
-            if not route_pattern.search(line):
-                continue
-
-            if self.transport_type in line:
-                match = MINUTES_RE.search(line)
-                if match:
-                    return int(match.group(1))
-
-        # fallback: if transport type text is absent on the page, use any matching route line
-        for line in self.coordinator.data:
-            if route_pattern.search(line):
-                match = MINUTES_RE.search(line)
-                if match:
-                    return int(match.group(1))
-
+            if self.number in line and self.transport_type in line:
+                for token in line.split():
+                    if token.isdigit():
+                        return int(token)
         return "unknown"
