@@ -1,11 +1,9 @@
 import logging
+from datetime import timedelta
+
 import aiohttp
 from bs4 import BeautifulSoup
-from datetime import timedelta
-from homeassistant.helpers.update_coordinator import (
-    DataUpdateCoordinator,
-    UpdateFailed,
-)
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,14 +24,12 @@ class NSKCoordinator(DataUpdateCoordinator):
                 async with session.get(self.url, timeout=10) as resp:
                     text = await resp.text()
         except Exception as err:
-            raise UpdateFailed(err)
+            raise UpdateFailed(err) from err
 
         soup = BeautifulSoup(text, "html.parser")
-        lines = soup.get_text("\n").splitlines()
 
-        result = []
-        for line in lines:
-            if "мин." in line:
-                result.append(line.strip())
+        # Keep all non-empty visible lines; some pages split route/type/minutes
+        # across neighboring rows, so filtering only lines with "мин." loses data.
+        lines = [line.strip() for line in soup.get_text("\n").splitlines() if line.strip()]
 
-        return result
+        return lines
