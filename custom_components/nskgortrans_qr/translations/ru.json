@@ -3,13 +3,24 @@
     "step": {
       "user": {
         "title": "NSKGorTrans QR",
-        "description": "Добавьте остановку и маршруты",
+        "description": "Добавьте ссылку QR и интервал обновления",
         "data": {
           "url": "Ссылка QR",
-          "scan_interval": "Интервал обновления (сек)",
-          "routes": "Маршруты"
+          "scan_interval": "Интервал обновления (сек)"
+        }
+      },
+      "routes": {
+        "title": "Маршруты",
+        "description": "Добавьте маршрут (добавлено: {routes_count})",
+        "data": {
+          "number": "Номер маршрута",
+          "type": "Тип транспорта",
+          "add_another": "Добавить ещё маршрут"
         }
       }
+    },
+    "error": {
+      "invalid_route": "Укажите номер маршрута"
     }
   }
 }
